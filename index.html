@@ -422,15 +422,15 @@
         function shootBullet() {   //ANCHOR - shootBullet
             switch (powerUp) {
                 case "triple":
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7 + upgrades.damage.level, speedX: 0 });
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7 + upgrades.damage.level, speedX: -2 });
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7 + upgrades.damage.level, speedX: 2 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7, speedX: 0 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7, speedX: -2 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7, speedX: 2 });
                     break;
                 case "laser":
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 40, height: 40, speed: 14 + upgrades.damage.level * 2, speedX: 0 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 40, height: 40, speed: 14, speedX: 0 });
                     break;
                 default:
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7 + upgrades.damage.level, speedX: 0 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7, speedX: 0 });
                     break;
             }
         }
