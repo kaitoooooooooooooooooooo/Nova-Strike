@@ -75,10 +75,10 @@
 <body>
     <header>
     </header>
-    <main class="container-fluid py-4">
+    <main class="container-fluid py-2">
         <div id="mouseTarget" class="game-wrapper text-center text-white">
 
-            <h1 class="game-title mb-4">Nova Strike</h1>
+            <h1 class="game-title mb-2">Nova Strike</h1>
 
             <div class="row align-items-center justify-content-center g-3">
 
@@ -95,20 +95,124 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div id="effect-board" class="stat-card unique-accuracy">
-                        <span class="stat-label">ACTIVE EFFECT</span><br>
-                        <span id="current-effect" class="stat-value">Aucun</span>
-                        <hr>
-                        <span class="life-label">ROCKET LIFE</span><br>
-                        <span id="current-life" class="life-value"></span>
-                        </hr>
-                    </div>
-                </div>
+                <div class="col-md-3 d-flex flex-column gap-2">
 
+                    <div class="list-group">
+                        <div class="list-group-item rounded">
+                            <div id="effect-board" class="stat-card unique-accuracy w-100 m-0">
+                                <span class="stat-label">
+                                    <i class="bi bi-lightning-charge-fill"></i> POWER UP
+                                </span><br>
+                                <span id="current-effect" class="stat-value">Aucun</span>
+                                <hr class="my-1">
+                                <span class="life-label">
+                                    <i class="bi bi-rocket-fill"></i> ROCKET LIFE
+                                </span><br>
+                                <span id="current-life" class="life-value"></span>
+                                <hr class="my-1">
+                                <span class="life-label">
+                                    <i class="bi bi-trash3-fill"></i> TRASH
+                                </span><br>
+                                <span id="trash-count" class="life-value">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="list-group">
+                        <div class="list-group-item rounded">
+                            <h6 class="mb-2" style="color: azure;">
+                                <i class="bi bi-tools"></i> Upgrades
+                            </h6>
+                            <div class="row g-1">
+                                <div class="col-6">
+                                    <button id="btn-speed" type="button" class="btn btn-sm btn-outline-info w-100"
+                                        onclick="buyUpgrade('speed')">
+                                        <i class="bi bi-speedometer2"></i> Speed
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button id="btn-saver" type="button" class="btn btn-sm btn-outline-warning w-100"
+                                        onclick="buyUpgrade('saver')">
+                                        <i class="bi bi-shield-fill"></i> Saver
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button id="btn-damage" type="button" class="btn btn-sm btn-outline-danger w-100"
+                                        onclick="buyUpgrade('damage')">
+                                        <i class="bi bi-crosshair2"></i> Damage+
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button id="btn-extralife" type="button"
+                                        class="btn btn-sm btn-outline-success w-100" onclick="buyUpgrade('extraLife')">
+                                        <i class="bi bi-heart-fill"></i> Extra Life
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-secondary mt-2 w-100" data-bs-toggle="modal"
+                                data-bs-target="#modal-default">
+                                <i class="bi bi-info-circle"></i> Info
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </main>
+
+    <div class="modal fade" id="modal-default" tabindex="-1" aria-labelledby="modal-default-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-default-label">
+                        <i class="bi bi-info-circle"></i> Infos & Upgrades
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="bi bi-speedometer2 text-info"></i>
+                            <strong> Speed Boost</strong> — Augmente la vitesse de déplacement de la fusée.
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-shield-fill text-warning"></i>
+                            <strong> Shield+</strong> — Augmente la durée du bouclier de protection.
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-crosshair2 text-danger"></i>
+                            <strong> Damage+</strong> — Les bullets détruisent les météorites en moins de coups.
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-heart-fill text-success"></i>
+                            <strong> Extra Life</strong> — Commence la partie avec une vie supplémentaire.
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-trash3-fill"></i>
+                            <strong> Trash</strong> — Collecte les débris lâchés par les aliens pour gagner des points
+                            bonus.
+                        </li>
+                        <li class="mb-0">
+                            <i class="bi bi-lightning-charge-fill text-warning"></i>
+                            <strong> Power Ups</strong> — Les météorites détruites peuvent lâcher Triple Shot, Laser ou
+                            Bouclier.
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="modal-footer">
+                    <a href="https://claude.ai/" target="_blank" class="btn btn-secondary">
+                        <i class="bi bi-chat-dots"></i> Besoin d'autre chose
+                    </a>
+                    <button type="button" class="btn btn-link ms-auto" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+
+
     <footer>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -132,6 +236,10 @@
         meteorImages[1].src = "./assets/meteor2.png";
         meteorImages[2].src = "./assets/meteor3.png";
         meteorImages[3].src = "./assets/meteor4.png";
+        var trashImages = [new Image(), new Image(), new Image()];
+        trashImages[0].src = "./assets/Trash/trash1.png";
+        trashImages[1].src = "./assets/Trash/trash2.png";
+        trashImages[2].src = "./assets/Trash/trash3.png";
         var explosionImages = [
             new Image(), new Image(), new Image(), new Image(),
             new Image(), new Image(), new Image(), new Image(),
@@ -160,13 +268,19 @@
         var triplePowerUp = new Image(); triplePowerUp.src = "./assets/missile-pod.png";
         var shieldPowerUp = new Image(); shieldPowerUp.src = "./assets/shield.png";
         var laserPowerUp = new Image(); laserPowerUp.src = "./assets/sinusoidal-beam.png";
-
+        var trashCollected = 0;
         var powerUp = null;
         var powerUpTimer = 0;
         var powerUpImages = {
             triple: triplePowerUp,
             shield: shieldPowerUp,
             laser: laserPowerUp
+        };
+        var upgrades = {
+            speed: { level: 0, cost: 5 },
+            saver: { level: 0, cost: 5 },
+            damage: { level: 0, cost: 5 },
+            extraLife: { level: 0, cost: 5 }
         };
 
         var powerupMessage = null;
@@ -186,6 +300,7 @@
         var meteor = [];
         var explosions = [];
         var powerups = [];
+        var trashItems = [];
         var moveLeft = false, moveRight = false, moveUp = false, moveDown = false;
 
         var startBtn = { x: canvas.width / 2 - 100, y: canvas.height / 2 - 10, width: 200, height: 75 };
@@ -194,9 +309,8 @@
         var alienInterval, meteorInterval;
 
         function updateUI() {
-            scoreDisplay.innerHTML = score;
+            scoreDisplay.innerHTML = `${score} 💥`;
             lifeText.innerHTML = `${rocket.life} ❤️`;
-
             if (powerUp === "triple") {
                 effectDisplay.innerHTML = "Triple Shot";
             } else if (powerUp === "laser") {
@@ -206,11 +320,14 @@
             } else {
                 effectDisplay.innerHTML = "Aucun";
             }
+            document.getElementById("trash-count").innerHTML = `${trashCollected}`;
+            updateUpgradeButtons();
         }
 
         function startGame() { //ANCHOR - Start 
             rocket.life = 3;
             score = 0;
+            trashCollected = 0;
             powerUp = null;
             powerUpTimer = 0;
             powerupMessage = null;
@@ -222,6 +339,14 @@
             meteor = [];
             explosions = [];
             powerups = [];
+            trashItems = [];
+            upgrades = {
+                speed: { level: 0, cost: 5 },
+                saver: { level: 0, cost: 5 },
+                damage: { level: 0, cost: 5 },
+                extraLife: { level: 0, cost: 5 }
+            };
+            updateUpgradeButtons();
 
             updateUI();
             gameState = "playing";
@@ -229,8 +354,12 @@
             clearInterval(alienInterval);
             clearInterval(meteorInterval);
 
-            alienInterval = setInterval(spawnRock, 1500);
-            meteorInterval = setInterval(spawnMeteor, 2000);
+            alienInterval = setInterval(() => {
+                const count = 1 + Math.floor(score / 25);
+                for (let i = 0; i < count; i++) {
+                    spawnRock();
+                }
+            }, Math.max(400, 1500 - score * 10)); meteorInterval = setInterval(spawnMeteor, 2000);
         }
 
         canvas.addEventListener("click", function (e) { //ANCHOR - Btn EventListener
@@ -293,23 +422,30 @@
         function shootBullet() {   //ANCHOR - shootBullet
             switch (powerUp) {
                 case "triple":
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7, speedX: 0 });
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7, speedX: -2 });
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7, speedX: 2 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7 + upgrades.damage.level, speedX: 0 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7 + upgrades.damage.level, speedX: -2 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7 + upgrades.damage.level, speedX: 2 });
                     break;
                 case "laser":
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 40, height: 40, speed: 14, speedX: 0 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 40, height: 40, speed: 14 + upgrades.damage.level * 2, speedX: 0 });
                     break;
                 default:
-                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7, speedX: 0 });
+                    bullets.push({ x: rocket.x + rocket.width / 2 - 10, y: rocket.y, width: 20, height: 20, speed: 7 + upgrades.damage.level, speedX: 0 });
                     break;
             }
         }
 
-        function spawnRock() {  //ANCHOR - spawnRock
+        function spawnRock() {  //ANCHOR - spawnAlien
             if (gameState !== "playing") return;
             var randomX = Math.floor(Math.random() * (canvas.width - 50));
             aliens.push({ x: randomX, y: -50, width: 50, height: 50, speed: 3 + score / 10 });
+        }
+
+        function spawnTrash(x, y) {
+            var imgIndex = Math.floor(Math.random() * 3);
+            trashItems.push({
+                x: x, y: y, width: 35, height: 35, speed: 2, imgIndex: imgIndex
+            });
         }
 
         function spawnMeteor() {    //ANCHOR - spawnMeteor
@@ -375,15 +511,19 @@
             if (gameState === "paused") { renderPauseScreen(); return; }
             if (gameState === "lose") { renderLoseScreen(); return; }
 
-            if (moveUp && !moveDown) rocket.speedY = -5;
-            else if (moveDown && !moveUp) rocket.speedY = 5;
+            var spd = 5 + upgrades.speed.level;
+
+            if (moveUp && !moveDown) rocket.speedY = -spd;
+            else if (moveDown && !moveUp) rocket.speedY = spd;
             else rocket.speedY = 0;
-            if (moveLeft && !moveRight) rocket.speedX = -5;
-            else if (moveRight && !moveLeft) rocket.speedX = 5;
+
+            if (moveLeft && !moveRight) rocket.speedX = -spd;
+            else if (moveRight && !moveLeft) rocket.speedX = spd;
             else rocket.speedX = 0;
 
             rocket.x += rocket.speedX;
             rocket.y += rocket.speedY;
+
             if (rocket.x < 0) rocket.x = 0;
             if (rocket.y < 0) rocket.y = 0;
             if (rocket.x + rocket.width > canvas.width) rocket.x = canvas.width - rocket.width;
@@ -400,8 +540,33 @@
             for (var j = aliens.length - 1; j >= 0; j--) {
                 aliens[j].y += aliens[j].speed;
                 if (aliens[j].y + aliens[j].height >= canvas.height) {
-                    gameState = "lose";
-                    return;
+                    if (upgrades.saver.level > 0) {
+                        upgrades.saver.level--;
+                        aliens.splice(j, 1);
+                        updateUpgradeButtons();
+                        powerupMessage = { text: "Saver utilisé !", timer: 60 };
+                    } else {
+                        gameState = "lose";
+                        return;
+                    }
+                }
+            }
+
+            for (var t = trashItems.length - 1; t >= 0; t--) {
+                trashItems[t].y += trashItems[t].speed;
+                if (trashItems[t].y > canvas.height) trashItems.splice(t, 1);
+            }
+
+            for (var t = trashItems.length - 1; t >= 0; t--) {
+                if (rocket.x < trashItems[t].x + trashItems[t].width &&
+                    rocket.x + rocket.width > trashItems[t].x &&
+                    rocket.y < trashItems[t].y + trashItems[t].height &&
+                    rocket.y + rocket.height > trashItems[t].y) {
+
+                    trashCollected++;
+                    updateUI();
+                    updateUI();
+                    trashItems.splice(t, 1);
                 }
             }
 
@@ -442,6 +607,7 @@
 
                         explosions.push(new animateGif(explosionImages, aliens[a].x, aliens[a].y, aliens[a].width, aliens[a].height));
                         bullets.splice(b, 1);
+                        if (Math.random() < 0.7) spawnTrash(aliens[a].x + aliens[a].width / 2 - 17, aliens[a].y);
                         aliens.splice(a, 1);
                         score++;
                         updateUI();
@@ -493,6 +659,7 @@
                     rocket.y + rocket.height > aliens[a].y) {
 
                     explosions.push(new animateGif(explosionImages, aliens[a].x, aliens[a].y, aliens[a].width, aliens[a].height));
+                    if (Math.random() < 0.7) spawnTrash(aliens[a].x + aliens[a].width / 2 - 17, aliens[a].y);
                     aliens.splice(a, 1);
 
                     if (powerUp !== "shield") {
@@ -590,6 +757,15 @@
                 }
             }
 
+            for (var t = 0; t < trashItems.length; t++) {
+                var tImg = trashImages[trashItems[t].imgIndex];
+                if (tImg && tImg.complete && tImg.naturalWidth !== 0) {
+                    drawingSurface.drawImage(tImg, trashItems[t].x, trashItems[t].y, trashItems[t].width, trashItems[t].height);
+                } else {
+                    drawingSurface.fillStyle = "brown";
+                    drawingSurface.fillRect(trashItems[t].x, trashItems[t].y, trashItems[t].width, trashItems[t].height);
+                }
+            }
             if (powerupMessage) {
                 drawingSurface.save();
                 drawingSurface.font = "bold 24px Arial";
@@ -614,6 +790,37 @@
                 gameState = "paused";
             }
         });
+
+        function buyUpgrade(type) {
+            var upg = upgrades[type];
+            if (trashCollected < upg.cost) return;
+            trashCollected -= upg.cost;
+            upg.level++;
+
+            if (type === "extraLife") {
+                rocket.life++;
+            }
+
+            document.getElementById("trash-count").innerHTML = `${trashCollected}`;
+            updateUpgradeButtons();
+            updateUI();
+        }
+
+        function updateUpgradeButtons() {
+            document.getElementById("btn-speed").innerHTML =
+                `<i class="bi bi-speedometer2"></i> Speed (Niv.${upgrades.speed.level}) — ${upgrades.speed.cost} <i class="bi bi-trash3-fill"></i>`;
+            document.getElementById("btn-saver").innerHTML =
+                `<i class="bi bi-shield-fill"></i> Saver (Niv.${upgrades.saver.level}) — ${upgrades.saver.cost} <i class="bi bi-trash3-fill"></i>`;
+            document.getElementById("btn-damage").innerHTML =
+                `<i class="bi bi-crosshair2"></i> Damage (Niv.${upgrades.damage.level}) — ${upgrades.damage.cost} <i class="bi bi-trash3-fill"></i>`;
+            document.getElementById("btn-extralife").innerHTML =
+                `<i class="bi bi-heart-fill"></i> Extra Life (Niv.${upgrades.extraLife.level}) — ${upgrades.extraLife.cost} <i class="bi bi-trash3-fill"></i>`;
+
+            document.getElementById("btn-speed").disabled = trashCollected < upgrades.speed.cost;
+            document.getElementById("btn-saver").disabled = trashCollected < upgrades.saver.cost;
+            document.getElementById("btn-damage").disabled = trashCollected < upgrades.damage.cost;
+            document.getElementById("btn-extralife").disabled = trashCollected < upgrades.extraLife.cost;
+        }
 
         function renderStartScreen() {  //ANCHOR - StartScreen
             drawingSurface.clearRect(0, 0, canvas.width, canvas.height);
