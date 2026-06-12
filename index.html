@@ -1,225 +1,359 @@
 <!doctype html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 
 <head>
-    <title>Nova Strike</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nova Strike</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <style>
+        :root {
+            --bg: #0a0614;
+            --panel: #1a232d;
+            --grid: #1b1232;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #60a5fa;
+            --player: #22d3ee;
+            --invader: #fef3c7;
+            --bullet: #fb7185;
+            --shield: #34d399;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
         body {
-            background: #0b0b1e;
-            text-align: center;
-            font-family: Lato, sans-serif;
+            height: 100%;
             margin: 0;
-            padding: 20px;
+            background:
+                linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)),
+                url("./assets/bg.jpg") center/cover no-repeat fixed;
+            color: var(--text);
+            font: 16px/1.45 system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .wrap {
+            min-height: 100%;
+            display: grid;
+            place-items: center;
+            padding: 18px
+        }
+
+        .card {
+            width: min(1200px, 98vw);
+            background: linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .02));
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+        }
+
+        header {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        img {
-            border: 5px solid #555;
-        }
-
-        canvas {
-            background-color: #111;
-            background-image: url("./assets/vignesh-krishnan-space-bg-1423311712.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-            border: 4px solid azure;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-        }
-
-        h1 {
-            color: azure;
-            margin-bottom: 10px;
-        }
-
-        span {
-            font-style: italic;
-        }
-
-        #score-board,
-        #effect-board {
-            color: azure;
-            font-size: 24px;
-            margin-bottom: 15px;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
         }
 
         .game-title {
-            font-size: 4rem;
-            color: #fff;
-            text-shadow: 0 0 5px #ff005e, 0 0 10px #ff005e, 0 0 20px #ff005e, 0 0 40px #ff005e, 0 0 80px #ff005e;
-            animation: glow 1.5s infinite alternate;
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--text);
+            letter-spacing: .3px;
         }
 
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 5px #ff005e, 0 0 10px #ff005e, 0 0 20px #ff005e, 0 0 40px #ff005e, 0 0 80px #ff005e;
-            }
+        .board {
+            display: grid;
+            grid-template-columns: auto 280px;
+            gap: 16px;
+            padding: 16px
+        }
 
-            100% {
-                text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 40px #00d4ff, 0 0 80px #00d4ff, 0 0 160px #00d4ff;
+        @media (max-width:980px) {
+            .board {
+                grid-template-columns: 1fr
             }
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center
+        }
+
+        canvas {
+            border-radius: 14px;
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .04);
+        }
+
+        aside {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .panel {
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 12px;
+        }
+
+        .panel h6 {
+            color: var(--accent);
+            margin: 0 0 .5rem 0;
+            font-weight: 700;
+            font-size: 14px
+        }
+
+        .badge {
+            padding: .25rem .6rem;
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .06);
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: .05em;
+            text-transform: uppercase
+        }
+
+        .stat-value,
+        .life-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text)
+        }
+
+        .life-label {
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: .05em;
+            text-transform: uppercase
+        }
+
+        hr {
+            border-color: rgba(255, 255, 255, .1)
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px
+        }
+
+        .btn {
+            appearance: none;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .06);
+            border-radius: 12px;
+            padding: 10px 8px;
+            color: inherit;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: background .15s ease, transform .05s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, .12)
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .btn:disabled {
+            opacity: .4;
+            cursor: not-allowed
+        }
+
+        .btn-secondary {
+            border-color: rgba(255, 255, 255, .12);
+            color: var(--muted);
+            width: 100%;
+            margin-top: 8px
+        }
+
+        /* Modal */
+        .modal-backdrop-custom {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-backdrop-custom.show {
+            display: flex
+        }
+
+        .modal-box {
+            width: min(520px, 92vw);
+            background: linear-gradient(180deg, rgba(20, 12, 40, .98), rgba(10, 6, 20, .98));
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .6);
+            color: var(--text);
+        }
+
+        .modal-header-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+        }
+
+        .modal-header-custom h5 {
+            margin: 0;
+            color: var(--accent)
+        }
+
+        .modal-body-custom {
+            padding: 14px 16px
+        }
+
+        .modal-body-custom ul {
+            padding-left: 0
+        }
+
+        .modal-body-custom li {
+            list-style: none;
+            margin-bottom: .6rem
+        }
+
+        .modal-footer-custom {
+            display: flex;
+            gap: 8px;
+            padding: 14px 16px;
+            border-top: 1px solid rgba(255, 255, 255, .1);
+        }
+
+        .close-x {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 20px;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-    <header>
-    </header>
-    <main class="container-fluid py-2">
-        <div id="mouseTarget" class="game-wrapper text-center text-white">
+    <div class="wrap">
+        <div class="card">
+            <header>
+                <h1 class="game-title">Nova Strike</h1>
+            </header>
 
-            <h1 class="game-title mb-2">Nova Strike</h1>
+            <div id="mouseTarget" class="board">
+                <div class="canvas-container">
+                    <canvas id="main" width="500" height="800"></canvas>
+                </div>
 
-            <div class="row align-items-center justify-content-center g-3">
-
-                <div class="col-md-3">
-                    <div id="score-board" class="stat-card unique-score">
-                        <span class="stat-label">SCORE</span><br>
+                <aside>
+                    <div class="panel">
+                        <h6><i class="bi bi-star-fill"></i> Score</h6>
                         <span id="points" class="stat-value">0</span>
                     </div>
-                </div>
-
-                <div class="col-md-6 d-flex justify-content-center">
-                    <div class="canvas-container">
-                        <canvas id="main" width="500" height="800"></canvas>
-                    </div>
-                </div>
-
-                <div class="col-md-3 d-flex flex-column gap-2">
-
-                    <div class="list-group">
-                        <div class="list-group-item rounded">
-                            <div id="effect-board" class="stat-card unique-accuracy w-100 m-0">
-                                <span class="stat-label">
-                                    <i class="bi bi-lightning-charge-fill"></i> POWER UP
-                                </span><br>
-                                <span id="current-effect" class="stat-value">Aucun</span>
-                                <hr class="my-1">
-                                <span class="life-label">
-                                    <i class="bi bi-rocket-fill"></i> ROCKET LIFE
-                                </span><br>
-                                <span id="current-life" class="life-value"></span>
-                                <hr class="my-1">
-                                <span class="life-label">
-                                    <i class="bi bi-trash3-fill"></i> TRASH
-                                </span><br>
-                                <span id="trash-count" class="life-value">0</span>
-                            </div>
-                        </div>
+                    <div class="panel">
+                        <h6><i class="bi bi-lightning-charge-fill"></i> Power Up</h6>
+                        <span class="stat-label">EFFET ACTIF</span><br>
+                        <span id="current-effect" class="stat-value">Aucun</span>
+                        <hr>
+                        <span class="life-label"><i class="bi bi-rocket-fill"></i> ROCKET LIFE</span><br>
+                        <span id="current-life" class="life-value"></span>
+                        <hr>
+                        <span class="life-label"><i class="bi bi-trash3-fill"></i> TRASH</span><br>
+                        <span id="trash-count" class="life-value">0</span>
                     </div>
 
-                    <div class="list-group">
-                        <div class="list-group-item rounded">
-                            <h6 class="mb-2" style="color: azure;">
-                                <i class="bi bi-tools"></i> Upgrades
-                            </h6>
-                            <div class="row g-1">
-                                <div class="col-6">
-                                    <button id="btn-speed" type="button" class="btn btn-sm btn-outline-info w-100"
-                                        onclick="buyUpgrade('speed')">
-                                        <i class="bi bi-speedometer2"></i> Speed
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button id="btn-saver" type="button" class="btn btn-sm btn-outline-warning w-100"
-                                        onclick="buyUpgrade('saver')">
-                                        <i class="bi bi-shield-fill"></i> Saver
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button id="btn-damage" type="button" class="btn btn-sm btn-outline-danger w-100"
-                                        onclick="buyUpgrade('damage')">
-                                        <i class="bi bi-crosshair2"></i> Damage+
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button id="btn-extralife" type="button"
-                                        class="btn btn-sm btn-outline-success w-100" onclick="buyUpgrade('extraLife')">
-                                        <i class="bi bi-heart-fill"></i> Extra Life
-                                    </button>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-sm btn-secondary mt-2 w-100" data-bs-toggle="modal"
-                                data-bs-target="#modal-default">
-                                <i class="bi bi-info-circle"></i> Info
+                    <div class="panel">
+                        <h6><i class="bi bi-tools"></i> Upgrades</h6>
+                        <div class="controls">
+                            <button id="btn-speed" type="button" class="btn" onclick="buyUpgrade('speed')">
+                                <i class="bi bi-speedometer2"></i> Speed
+                            </button>
+                            <button id="btn-saver" type="button" class="btn" onclick="buyUpgrade('saver')">
+                                <i class="bi bi-shield-fill"></i> Saver
+                            </button>
+                            <button id="btn-damage" type="button" class="btn" onclick="buyUpgrade('damage')">
+                                <i class="bi bi-crosshair2"></i> Damage+
+                            </button>
+                            <button id="btn-extralife" type="button" class="btn" onclick="buyUpgrade('extraLife')">
+                                <i class="bi bi-heart-fill"></i> Extra Life
                             </button>
                         </div>
+                        <button type="button" class="btn btn-secondary" id="open-info">
+                            <i class="bi bi-info-circle"></i> Info
+                        </button>
                     </div>
 
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <div class="modal fade" id="modal-default" tabindex="-1" aria-labelledby="modal-default-label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-default-label">
-                        <i class="bi bi-info-circle"></i> Infos & Upgrades
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-unstyled mb-0">
-                        <li class="mb-2">
-                            <i class="bi bi-speedometer2 text-info"></i>
-                            <strong> Speed Boost</strong> — Augmente la vitesse de déplacement de la fusée.
-                        </li>
-                        <li class="mb-2">
-                            <i class="bi bi-shield-fill text-warning"></i>
-                            <strong> Shield+</strong> — Augmente la durée du bouclier de protection.
-                        </li>
-                        <li class="mb-2">
-                            <i class="bi bi-crosshair2 text-danger"></i>
-                            <strong> Damage+</strong> — Les bullets détruisent les météorites en moins de coups.
-                        </li>
-                        <li class="mb-2">
-                            <i class="bi bi-heart-fill text-success"></i>
-                            <strong> Extra Life</strong> — Commence la partie avec une vie supplémentaire.
-                        </li>
-                        <li class="mb-2">
-                            <i class="bi bi-trash3-fill"></i>
-                            <strong> Trash</strong> — Collecte les débris lâchés par les aliens pour gagner des points
-                            bonus.
-                        </li>
-                        <li class="mb-0">
-                            <i class="bi bi-lightning-charge-fill text-warning"></i>
-                            <strong> Power Ups</strong> — Les météorites détruites peuvent lâcher Triple Shot, Laser ou
-                            Bouclier.
-                        </li>
-                    </ul>
-
-                </div>
-                <div class="modal-footer">
-                    <a href="https://claude.ai/" target="_blank" class="btn btn-secondary">
-                        <i class="bi bi-chat-dots"></i> Besoin d'autre chose
-                    </a>
-                    <button type="button" class="btn btn-link ms-auto" data-bs-dismiss="modal">Fermer</button>
-                </div>
+                    <div class="panel legend" style="font-size:13px;color:var(--muted)">
+                        <div>Bouge : <kbd>↑↓←→</kbd> ou <kbd>WASD</kbd></div>
+                        <div>Tir : <kbd>Space</kbd></div>
+                        <div>Pause : <kbd>P</kbd></div>
+                    </div>
+                </aside>
             </div>
         </div>
     </div>
-    </main>
 
+    <div class="modal-backdrop-custom" id="modal-default">
+        <div class="modal-box">
+            <div class="modal-header-custom">
+                <h5><i class="bi bi-info-circle"></i> Infos & Upgrades</h5>
+                <button class="close-x" id="close-info">&times;</button>
+            </div>
+            <div class="modal-body-custom">
+                <ul>
+                    <li><i class="bi bi-speedometer2"></i> <strong>Speed Boost</strong> — Augmente la vitesse de
+                        déplacement de la fusée.</li>
+                    <li><i class="bi bi-shield-fill"></i> <strong>Shield+</strong> — Augmente la durée du bouclier de
+                        protection.</li>
+                    <li><i class="bi bi-crosshair2"></i> <strong>Damage+</strong> — Les bullets détruisent les
+                        météorites en moins de coups.</li>
+                    <li><i class="bi bi-heart-fill"></i> <strong>Extra Life</strong> — Commence la partie avec une vie
+                        supplémentaire.</li>
+                    <li><i class="bi bi-trash3-fill"></i> <strong>Trash</strong> — Collecte les débris lâchés par les
+                        aliens pour gagner des points bonus.</li>
+                    <li><i class="bi bi-lightning-charge-fill"></i> <strong>Power Ups</strong> — Les météorites
+                        détruites peuvent lâcher Triple Shot, Laser ou Bouclier.</li>
+                </ul>
+            </div>
+            <div class="modal-footer-custom">
+                <a href="https://claude.ai/" target="_blank" class="btn btn-secondary" style="width:auto;margin-top:0">
+                    <i class="bi bi-chat-dots"></i> Besoin d'autre chose
+                </a>
+                <button type="button" class="btn btn-secondary" style="width:auto;margin-top:0;margin-left:auto"
+                    id="close-info-2">Fermer</button>
+            </div>
+        </div>
+    </div>
 
-    <footer>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-    <script src="./Nova-Strike.js">
+    <script>
+        const modal = document.getElementById("modal-default");
+        document.getElementById("open-info").addEventListener("click", () => modal.classList.add("show"));
+        document.getElementById("close-info").addEventListener("click", () => modal.classList.remove("show"));
+        document.getElementById("close-info-2").addEventListener("click", () => modal.classList.remove("show"));
+        modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
     </script>
+
+    <script src="./Nova-Strike.js"></script>
 </body>
 
 </html>
